@@ -6,12 +6,25 @@
 </head>
 <body>
   <img src="#">
-  <button>Generate New Image</button>
+  <button id='new-gif'>New Image</button>
+  <form>
+      <input id='searchBar' type='search' required maxlength="8">
+      <input type='submit'>
+  </form>
   <script>
       const img = document.querySelector('img');
-      const genarateNewImageButton = document.querySelector('button');
-      genarateNewImageButton.addEventListener('click', () => {
-        fetch('https://api.giphy.com/v1/gifs/translate?api_key=KrQBTKUAQewMdpvUMjmStSd5z8mAYw4D&s=cats', {mode: 'cors'})
+      const genarateNewImageButton = document.querySelector('#new-gif');
+      const searchBar = document.querySelector('#searchBar');
+      const form = document.querySelector('form');
+      let searchValue = 'cats';
+      
+      //on submit taake calue of searchbar and turn is into smth that i can pass to api
+      searchBar.addEventListener('input', e => {
+        searchValue = searchBar.value;
+      })
+
+      form.addEventListener('submit', e => {
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=KrQBTKUAQewMdpvUMjmStSd5z8mAYw4D&s=' + searchValue, { mode: 'cors'})
         .then(function(response) {
             return response.json();
         })
@@ -19,14 +32,28 @@
             img.src = '';
             img.src = response.data.images.original.url;
         });
-      });
-        fetch('https://api.giphy.com/v1/gifs/translate?api_key=KrQBTKUAQewMdpvUMjmStSd5z8mAYw4D&s=cats', {mode: 'cors'})
+        e.preventDefault();
+      })
+
+      genarateNewImageButton.addEventListener('click', () => {
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=KrQBTKUAQewMdpvUMjmStSd5z8mAYw4D&s=' + searchValue, {mode: 'cors'})
+        .then(function(response) {
+            return response.json();
+        })
+        .catch(error => console.log(error))
+        .then(function(response) {
+            img.src = '';
+            img.src = response.data.images.original.url;
+        });
+      })
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=KrQBTKUAQewMdpvUMjmStSd5z8mAYw4D&s=cats' + searchValue, {mode: 'cors'})
         .then(function(response) {
             return response.json();
         })
         .then(function(response) {
             img.src = response.data.images.original.url;
-        });
+        })
+        .catch(error=>console.log(error))
   </script>
 </body>
 </html>
