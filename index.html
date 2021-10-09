@@ -6,15 +6,27 @@
 </head>
 <body>
   <img src="#">
+  <button>Generate New Image</button>
   <script>
       const img = document.querySelector('img');
-      fetch('https://api.giphy.com/v1/gifs/translate?api_key=KrQBTKUAQewMdpvUMjmStSd5z8mAYw4D&s=cats', {mode: 'cors'})
-      .then(function(response) {
-          return response.json();
-      })
-      .then(function(response) {
-          img.src = response.data.images.original.url;
+      const genarateNewImageButton = document.querySelector('button');
+      genarateNewImageButton.addEventListener('click', () => {
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=KrQBTKUAQewMdpvUMjmStSd5z8mAYw4D&s=cats', {mode: 'cors'})
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(response) {
+            img.src = '';
+            img.src = response.data.images.original.url;
+        });
       });
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=KrQBTKUAQewMdpvUMjmStSd5z8mAYw4D&s=cats', {mode: 'cors'})
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(response) {
+            img.src = response.data.images.original.url;
+        });
   </script>
 </body>
 </html>
